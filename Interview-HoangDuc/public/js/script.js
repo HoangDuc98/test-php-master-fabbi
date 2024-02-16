@@ -5,10 +5,6 @@ $(document).ready(function() {
     var current = 1;
     var steps = $('fieldset').length;
 
-    let orders = [];
-    localStorage.setItem('order', JSON.stringify(orders))
-    localStorage.getItem('order');
-
     setProgressBar(current);
     function getMeal() {
         $.ajax({
@@ -22,7 +18,6 @@ $(document).ready(function() {
                 });
                 $('#meal-categories').change(function() {
                     let mealCategoryId = $(this).val();
-                    console.log("Selected meal category ID:", mealCategoryId);
                 });
             },
 
@@ -57,7 +52,6 @@ $(document).ready(function() {
         next_fs = $(this).parent().next();
 
 
-        console.log(validateStep3(current_fs));
         if (validateStep1(current_fs) === true) {
             $('#progressbar li').eq($('fieldset').index(next_fs)).addClass('active');
             next_fs.show();
@@ -136,6 +130,7 @@ $(document).ready(function() {
             fieldset.find('#numberOfPeople-error').text('Please enter a valid number of people (1-10).');
             isValid = false;
         } else {
+            document.querySelector('.no-of-people-pre').innerHTML = numberOfPeople;
             fieldset.find('#numberOfPeople-error').text('');
         }
 
@@ -149,6 +144,21 @@ $(document).ready(function() {
             fieldset.find('#restaurant-error').text('Please select a restaurant.');
             isValid = false;
         } else {
+            $.ajax({
+                url: 'http://restaurant.test/api/restaurants',
+                type: "GET",
+                success: function(response) {
+                    response.forEach(item => {
+                        if (restaurant == item.id) {
+                            document.querySelector('.restaurant-pre').innerHTML = item.name;
+                        }
+                    });
+                },
+
+                error: function(error) {
+                    console.log(error);
+                }
+            });
             fieldset.find('#restaurant-error').text('');
         }
         return isValid;
@@ -158,10 +168,11 @@ $(document).ready(function() {
         let isValid = true;
         let dishes = $('#dishes').val();
         let numberOfDishes = fieldset.find('input[name="numberOfDishes"]').val();
-        console.log(dishes);
+
+        fieldset.find('#dishes-error').text('Please select a dishes.');
+        isValid = false;
         if (!dishes) {
-            fieldset.find('#dishes-error').text('Please select a dishes.');
-            isValid = false;
+
         } else {
             fieldset.find('#dishes-error').text('');
         }
@@ -223,7 +234,6 @@ $(document).ready(function() {
             };
 
             selectedDishes.push(newDish);
-            console.log(selectedDishes);
         }
 
         const div = document.querySelector(`#content-clone-${count}`);
@@ -234,7 +244,7 @@ $(document).ready(function() {
         document.querySelector('#main_content').appendChild(clone);
     });
 
-    document.querySelector('.next').addEventListener('click', function () {
+    document.querySelector('.step3').addEventListener('click', function () {
         const thisClone = document.querySelector(`#content-clone-${count}`);
         let dish = thisClone.querySelector('.dishes');
         let numberOfDishes = thisClone.querySelector('.numberOfDishes');
@@ -246,10 +256,41 @@ $(document).ready(function() {
             };
 
             selectedDishes.push(newDish);
-            console.log(selectedDishes);
         }
+        let arrayDishes = [];
+        $.ajax({
+            url: 'http://restaurant.test/api/dishes',
+            type: "GET",
+            success: function(response) {
+                arrayDishes.push(response)
+            },
 
+            error: function(error) {
+                console.log(error);
+            }
+        });
+        console.log(arrayDishes);
+        arrayDishes.forEach((subArray) => {
+            console.log(subArray)
+            subArray.forEach((item) => {
+                console.log(item.id);
+            });
+        });
+
+        selectedDishes.forEach((element) => {
+            console.log(element.id);
+            arrayDishes.forEach((subArray) => {
+                subArray.forEach((item) => {
+                    if (element.id === item.id) {
+                        console.log(item.name)
+                    }
+                })
+            })
+        });
     });
+    document.querySelector('.step4-previous').addEventListener('click', function() {
+        selectedDishes.pop();
+    })
     function getDish() {
         $.ajax({
             url: 'http://restaurant.test/api/dishes',
@@ -289,7 +330,6 @@ $(document).ready(function() {
             dishes: dishes
         };
 
-        console.log(formData);
         $.ajax({
             url: 'http://restaurant.test/api/orders',
             type: 'POST',

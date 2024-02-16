@@ -106,19 +106,41 @@
                                     <h2 class="steps">Review</h2>
                                 </div>
                             </div>
-                            <label class="fieldlabels">Meal: <span class='meal-pre'></span></label>
-                            <br/>
-
-                            <label class="fieldlabels"> No. Of People: </label>
-                            <br/>
-
-                            <label class="fieldlabels">Restaurant: </label>
-                            <br/>
-
-                            <label class="fieldlabels">Dishes: </label>
+                            <div class="row">
+                                <div class="col-7">
+                                    <h2 class="fs-title">Meal:</h2>
+                                </div>
+                                <div class="col-5">
+                                    <h2 class="preview meal-pre"></h2>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-7">
+                                    <h2 class="fs-title">No. Of People:</h2>
+                                </div>
+                                <div class="col-5">
+                                    <h2 class="preview no-of-people-pre"></h2>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-7">
+                                    <h2 class="fs-title">Restaurant:</h2>
+                                </div>
+                                <div class="col-5">
+                                    <h2 class="preview restaurant-pre"></h2>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-7">
+                                    <h2 class="fs-title">Dishes:</h2>
+                                </div>
+                                <div class="col-5">
+                                    <h2 class="preview dishes-pre"></h2>
+                                </div>
+                            </div>
                         </div>
                         <input type="button" name="next" class="next action-button submit step4" value="Submit"/>
-                        <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
+                        <input type="button" name="previous" class="previous action-button-previous step4-previous" value="Previous" />
                     </fieldset>
                     <fieldset>
                         <div class="form-card">

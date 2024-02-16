@@ -130,6 +130,14 @@ p {
     text-align: right
 }
 
+.preview {
+    font-size: 20px;
+    color: black;
+    margin-bottom: 10px;
+    font-weight: normal;
+    text-align: end
+}
+
 .fieldlabels {
     color: gray;
     text-align: left
