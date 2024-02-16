@@ -20,7 +20,6 @@ Route::middleware([])->group(function () {
     Route::get('/meal-categories', [OrderController::class, 'getAllMealCategories']);
     Route::get('/restaurants', [OrderController::class, 'getAllRestaurants']);
     Route::post('/orders', [OrderController::class, 'store']);
-    Route::get('/{id}', [OrderController::class, 'show']);
 });
 
 

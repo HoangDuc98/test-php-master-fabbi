@@ -11,4 +11,8 @@ class DishRepository
         return Dish::all();
     }
 
+    public function getDishesByRestaurant($restaurantId)
+    {
+        return Dish::where('restaurant_id', $restaurantId)->get();
+    }
 }

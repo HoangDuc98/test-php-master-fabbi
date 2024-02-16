@@ -6,6 +6,18 @@ $(document).ready(function() {
     var steps = $('fieldset').length;
 
     setProgressBar(current);
+
+    $('#meal-categories').change(function() {
+        let mealCategoryId = $(this).val();
+        getRestaurant(mealCategoryId);
+    });
+
+
+    $('#restaurant').change(function() {
+        let restaurantId = $(this).val();
+        getDish(restaurantId);
+    });
+
     function getMeal() {
         $.ajax({
             url: 'http://restaurant.test/api/meal-categories',
@@ -26,9 +38,9 @@ $(document).ready(function() {
             }
         });
     }
-    function getRestaurant() {
+    function getRestaurant(mealCategoryId) {
         $.ajax({
-            url: 'http://restaurant.test/api/restaurants',
+            url: 'http://restaurant.test/api/restaurants?meal_category_id=' + mealCategoryId,
             type: "GET",
             success: function(response) {
                 let select = document.getElementById('restaurant');
@@ -37,15 +49,14 @@ $(document).ready(function() {
                     select.innerHTML += `<option value='${item.id}'>${item.name}</option>`;
                 });
             },
-
             error: function(error) {
                 console.log(error);
             }
         });
     }
 
+
     getMeal();
-    getRestaurant();
     $('.next').click(function() {
 
         current_fs = $(this).parent();
@@ -103,7 +114,6 @@ $(document).ready(function() {
         let isValid = true;
         let mealCategory = $('#meal-categories').val();
         let numberOfPeople = fieldset.find('input[name="numberOfPeople"]').val();
-
         if (!mealCategory) {
             fieldset.find('#meal-error').text('Please select a meal.');
             isValid = false;
@@ -145,7 +155,7 @@ $(document).ready(function() {
             isValid = false;
         } else {
             $.ajax({
-                url: 'http://restaurant.test/api/restaurants',
+                url: 'http://restaurant.test/api/restaurants?meal_category_id=' + $('#meal-categories').val(),
                 type: "GET",
                 success: function(response) {
                     response.forEach(item => {
@@ -218,15 +228,44 @@ $(document).ready(function() {
     }
 
 
-
     let count = 0;
     let selectedDishes = [];
-
+    let countDish = 0
     document.querySelector('.button_add').addEventListener('click', function () {
         const thisClone = document.querySelector(`#content-clone-${count}`);
         let dish = thisClone.querySelector('.dishes');
         let numberOfDishes = thisClone.querySelector('.numberOfDishes');
+        $.ajax({
+            url: 'http://restaurant.test/api/dishes?restaurant_id=' + $('#restaurant').val(),
+            type: "GET",
+            success: function(response) {
+                let nameDishes = '';
+                response.forEach(item => {
+                    if (item.id == dish.value) {
+                        nameDishes = item.name;
+                    }
+                });
 
+                let newDishPrev = {
+                    name: nameDishes,
+                    quantity: numberOfDishes.value
+                };
+                countDish ++
+                if(countDish >= prevOfDishes.length){
+                    prevOfDishes.push(newDishPrev);
+
+                }
+                const dishesPrev = document.querySelector('.dishes-pre');
+                prevOfDishes.forEach(item => {
+                    dishesPrev.innerHTML += `<p>${item.name} - ${item.quantity}</p>`;
+                });
+                prevOfDishes.pop();
+            },
+
+            error: function(error) {
+                console.log(error);
+            }
+        });
         if (dish.value != '' || numberOfDishes.value != '') {
             let newDish = {
                 id: dish.value,
@@ -234,6 +273,7 @@ $(document).ready(function() {
             };
 
             selectedDishes.push(newDish);
+
         }
 
         const div = document.querySelector(`#content-clone-${count}`);
@@ -244,56 +284,60 @@ $(document).ready(function() {
         document.querySelector('#main_content').appendChild(clone);
     });
 
+    let prevOfDishes = [];
+
+    document.querySelector('.step4-previous').addEventListener('click', function() {
+        const dishesPrev = document.querySelector('.dishes-pre');
+        dishesPrev.innerHTML = '';
+        //prevOfDishes.splice(0, prevOfDishes.length);
+    });
+
     document.querySelector('.step3').addEventListener('click', function () {
         const thisClone = document.querySelector(`#content-clone-${count}`);
         let dish = thisClone.querySelector('.dishes');
         let numberOfDishes = thisClone.querySelector('.numberOfDishes');
-
-        if (dish.value != '' || numberOfDishes.value != '') {
-            let newDish = {
-                id: dish.value,
-                quantity: numberOfDishes.value
-            };
-
-            selectedDishes.push(newDish);
-        }
-        let arrayDishes = [];
         $.ajax({
-            url: 'http://restaurant.test/api/dishes',
+            url: 'http://restaurant.test/api/dishes?restaurant_id=' + $('#restaurant').val(),
             type: "GET",
             success: function(response) {
-                arrayDishes.push(response)
+                let nameDishes = '';
+                response.forEach(item => {
+                    if (item.id == dish.value) {
+                        nameDishes = item.name;
+                    }
+                });
+
+                let newDishPrev = {
+                    name: nameDishes,
+                    quantity: numberOfDishes.value
+                };
+                if(countDish >= prevOfDishes.length) {
+                    prevOfDishes.push(newDishPrev);
+                }
+                const dishesPrev = document.querySelector('.dishes-pre');
+                if (prevOfDishes.length > 0) {
+                    prevOfDishes.forEach(item => {
+                        dishesPrev.innerHTML += `<p>${item.name} - ${item.quantity}</p>`;
+                    });
+                }
             },
 
             error: function(error) {
                 console.log(error);
             }
         });
-        console.log(arrayDishes);
-        arrayDishes.forEach((subArray) => {
-            console.log(subArray)
-            subArray.forEach((item) => {
-                console.log(item.id);
-            });
-        });
 
-        selectedDishes.forEach((element) => {
-            console.log(element.id);
-            arrayDishes.forEach((subArray) => {
-                subArray.forEach((item) => {
-                    if (element.id === item.id) {
-                        console.log(item.name)
-                    }
-                })
-            })
-        });
+        let newDish = {
+            id: dish.value,
+            quantity: numberOfDishes.value
+        };
+
+        selectedDishes.push(newDish);
     });
-    document.querySelector('.step4-previous').addEventListener('click', function() {
-        selectedDishes.pop();
-    })
-    function getDish() {
+
+    function getDish(restaurantId) {
         $.ajax({
-            url: 'http://restaurant.test/api/dishes',
+            url: 'http://restaurant.test/api/dishes?restaurant_id=' + restaurantId,
             type: "GET",
             success: function(response) {
                 let select = document.querySelector('.dishes');

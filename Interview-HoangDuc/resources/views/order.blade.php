@@ -14,7 +14,6 @@
         <div class="col-11 col-sm-10 col-md-10 col-lg-6 col-xl-5 text-center p-0 mt-3 mb-2">
             <div class="card px-0 pt-4 pb-0 mt-3 mb-3">
                 <h2 id="heading">Order</h2>
-                <p>Fill all form field to go to next step</p>
                 <form id="msform">
                     <div class="progress">
                         <div class="progress-bar progress   -bar-striped progress-bar-animated" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
@@ -90,7 +89,7 @@
                                 </div>
                             </div>
                             <button type='button' class='button_add'>
-                                Thêm món
+                                Add items
                             </button>
                         </div>
                         <input type="button" name="next" class="next action-button step3" value="Next" />
@@ -135,7 +134,7 @@
                                     <h2 class="fs-title">Dishes:</h2>
                                 </div>
                                 <div class="col-5">
-                                    <h2 class="preview dishes-pre"></h2>
+                                    <p class="preview-h2 dishes-pre"></p>
                                 </div>
                             </div>
                         </div>
@@ -158,7 +157,7 @@
                             </div> <br><br>
                             <div class="row justify-content-center">
                                 <div class="col-7 text-center">
-                                    <h5 class="purple-text text-center">You Have Successfully Signed Up</h5>
+                                    <h5 class="purple-text text-center">You Have Successfully Orders</h5>
                                 </div>
                             </div>
                         </div>
