@@ -7,8 +7,8 @@
       <sourceFolder url="file://$MODULE_DIR$/Interview-HoangDuc/database/seeders" isTestSource="false" packagePrefix="Database\Seeders\" />
       <sourceFolder url="file://$MODULE_DIR$/Interview-HoangDuc/tests" isTestSource="true" packagePrefix="Tests\" />
       <excludeFolder url="file://$MODULE_DIR$/.tmp" />
-      <excludeFolder url="file://$MODULE_DIR$/temp" />
-      <excludeFolder url="file://$MODULE_DIR$/tmp" />
+      <excludeFolder url="file://$MODULE_DIR$/Interview-HoangDuc/storage/app" />
+      <excludeFolder url="file://$MODULE_DIR$/Interview-HoangDuc/storage/framework" />
       <excludeFolder url="file://$MODULE_DIR$/Interview-HoangDuc/vendor/brick/math" />
       <excludeFolder url="file://$MODULE_DIR$/Interview-HoangDuc/vendor/carbonphp/carbon-doctrine-types" />
       <excludeFolder url="file://$MODULE_DIR$/Interview-HoangDuc/vendor/composer" />
@@ -121,6 +121,8 @@
       <excludeFolder url="file://$MODULE_DIR$/Interview-HoangDuc/vendor/vlucas/phpdotenv" />
       <excludeFolder url="file://$MODULE_DIR$/Interview-HoangDuc/vendor/voku/portable-ascii" />
       <excludeFolder url="file://$MODULE_DIR$/Interview-HoangDuc/vendor/webmozart/assert" />
+      <excludeFolder url="file://$MODULE_DIR$/temp" />
+      <excludeFolder url="file://$MODULE_DIR$/tmp" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
